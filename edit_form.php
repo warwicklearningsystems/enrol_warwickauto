@@ -74,6 +74,28 @@ class enrol_warwickauto_edit_form extends moodleform {
         $mform->addHelpButton('customtext1', 'customwelcomemessage', 'enrol_warwickauto');
         $mform->disabledIf('customtext1', 'customint2', 'notchecked');
 
+        $designation = new \enrol_warwickauto\multiselect\designation(
+            'designations_add', 
+            [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]
+        );
+
+        $designationAddElement = new local_enrolmultiselect_formelementdesignationadd(null,null,null,null,$designation);
+        $mform->addElement( $designationAddElement );
+
+        $designation = new \enrol_warwickauto\multiselect\potential_designation(
+            'designations_remove', 
+            [
+                'plugin' => 'enrol_warwickauto', 
+                'enrol_instance' => $instance,
+            ]
+        );
+
+        $designationremoveElement = new local_enrolmultiselect_formelementdesignationremove(null,null,null,null,$designation);
+        $mform->addElement( $designationremoveElement );
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
         $mform->addElement('hidden', 'courseid');

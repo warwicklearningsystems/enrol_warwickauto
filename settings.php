@@ -24,10 +24,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+$pluginName = 'enrol_warwickauto';
+$designationUrl = new moodle_url( "/local/enrolmultiselect/designation.php", [ 'plugin_name' => $pluginName ] );
+$departmentUrl = new moodle_url( "/local/enrolmultiselect/department.php", [ 'plugin_name' => $pluginName ] );
+    
+$ADMIN->add('enrolments', new admin_category('enrol_warwickauto', 'Warwick Auto enrolment', true ));
+$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_departments", 'Departments', $departmentUrl, 'moodle/site:config'));
+$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_designations", 'Designations', $designationUrl, 'moodle/site:config'));
+
 if ($ADMIN->fulltree) {
 
     require_once($CFG->dirroot.'/enrol/warwickauto/lib.php');
 
+    $settings->add(new admin_setting_heading('enrol_warwickauto_dep','',"<a href='{$departmentUrl}'>Department Settings</a> | <a href='{$designationUrl}'>Designation Settings</a>"));
     $settings->add(new admin_setting_heading('enrol_warwickauto_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
 

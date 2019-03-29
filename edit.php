@@ -69,15 +69,7 @@ if ($mform->is_cancelled()) {
     if ($instance->id) {
         $reset = ($instance->status != $data->status);
 
-        $instance->status         = $data->status;
-        $instance->name           = $data->name;
-        $instance->customint2     = $data->customint2;
-        $instance->customint3     = $data->customint3;
-        $instance->customtext1    = empty($data->customtext1) ? '' : $data->customtext1;
-        $instance->customtext2    = empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2));
-        $instance->roleid         = $data->roleid;
-        $instance->timemodified   = time();
-        $DB->update_record('enrol', $instance);
+        $plugin->update_instance($instance, $data);
 
         if ($reset) {
             $context->mark_dirty();

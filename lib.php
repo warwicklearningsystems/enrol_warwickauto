@@ -407,5 +407,41 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         $context = context_course::instance($instance->courseid);
         return has_capability('enrol/warwickauto:config', $context);
     }
+    
+    /**
+     * 
+     * @param stdClass $instance
+     * @param array $data
+     * @return bool
+     */
+    public function update_instance($instance, $data) {
+        
+        $instance->customtext1    = empty($data->customtext1) ? '' : $data->customtext1;
+        $instance->customtext2    = empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2));
+        
+        
+        if(optional_param('designations_add_button', false, PARAM_BOOL)){
+
+            $designation = new \enrol_warwickauto\multiselect\designation('designations_remove', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]);
+
+            $instance->customtext3 = $designation->valuesToAdd( $data->designations_remove );
+        }
+        
+        if(optional_param('designations_remove_button', false, PARAM_BOOL)){
+            
+            $designation = new \enrol_warwickauto\multiselect\designation('designations_add', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]);
+
+            $instance->customtext3 = $designation->valuesToRemove( $data->designations_add );
+        }
+        
+
+        return parent::update_instance($instance, $data);
+    }
 
 }

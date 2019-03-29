@@ -29,4 +29,7 @@ $plugin->requires  = 2016120500;        // Requires this Moodle version
 $plugin->component = 'enrol_warwickauto';      // Full name of the plugin (used for diagnostics)
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->release = 'bleeding';
+$plugin->dependencies = array(
+    'local_enrolmultiselect' => 2019022000
+);
 
