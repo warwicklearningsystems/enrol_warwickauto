@@ -440,6 +440,25 @@ class enrol_warwickauto_plugin extends enrol_plugin {
             $instance->customtext3 = $designation->valuesToRemove( $data->designations_add );
         }
         
+        if(optional_param('departments_add_button', false, PARAM_BOOL)){
+
+            $department = new \enrol_warwickauto\multiselect\department('departments_remove', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]);
+
+            $instance->customtext4 = $department->valuesToAdd( $data->departments_remove );
+        }
+
+        if(optional_param('departments_remove_button', false, PARAM_BOOL)){
+
+            $department = new \enrol_warwickauto\multiselect\department('departments_add', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]);
+
+            $instance->customtext4 = $department->valuesToRemove( $data->departments_add );
+        }
 
         return parent::update_instance($instance, $data);
     }

@@ -96,6 +96,28 @@ class enrol_warwickauto_edit_form extends moodleform {
         $designationremoveElement = new local_enrolmultiselect_formelementdesignationremove(null,null,null,null,$designation);
         $mform->addElement( $designationremoveElement );
 
+        $department = new \enrol_warwickauto\multiselect\department(
+            'departments_add',
+            [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
+            ]
+        );
+
+        $departmentAddElement = new local_enrolmultiselect_formelementdepartmentadd(null,null,null,null,$department);
+        $mform->addElement( $departmentAddElement );
+
+        $department = new \enrol_warwickauto\multiselect\potential_department(
+            'departments_remove',
+            [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance,
+            ]
+        );
+
+        $departmentRemoveElement = new local_enrolmultiselect_formelementdepartmentremove(null,null,null,null,$department);
+        $mform->addElement( $departmentRemoveElement );
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
