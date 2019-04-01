@@ -41,35 +41,17 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('enrol_warwickauto_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
 
-    $settings->add(new admin_setting_configcheckbox('enrol_warwickauto/defaultenrol',
-        get_string('defaultenrol', 'enrol'), get_string('defaultenrol_desc', 'enrol'), 1));
+    $settings->add(new enrol_warwickauto_hidden('enrol_warwickauto/defaultenrol', get_string('defaultenrol', 'enrol'), get_string('defaultenrol_desc', 'enrol'), 0));
 
-    $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
-                     ENROL_INSTANCE_DISABLED => get_string('no'));
-    $settings->add(new admin_setting_configselect('enrol_warwickauto/status',
-        get_string('status', 'enrol_warwickauto'), get_string('status_desc', 'enrol_warwickauto'), ENROL_INSTANCE_DISABLED, $options));
+    $settings->add(new enrol_warwickauto_hidden('enrol_warwickauto/status', get_string('status', 'enrol_warwickauto'), get_string('status_desc', 'enrol_warwickauto'), ENROL_INSTANCE_DISABLED));
 
-    $options = array(ENROL_WARWICKAUTO_COURSE_VIEWED => get_string('courseview', 'enrol_warwickauto'),
-                     ENROL_WARWICKAUTO_LOGIN => get_string('userlogin', 'enrol_warwickauto'),
-                     ENROL_WARWICKAUTO_MOD_VIEWED    => get_string('modview', 'enrol_warwickauto'));
-    $settings->add(new admin_setting_configselect('enrol_warwickauto/enrolon',
-        get_string('enrolon', 'enrol_warwickauto'), get_string('enrolon_desc', 'enrol_warwickauto'), ENROL_WARWICKAUTO_COURSE_VIEWED, $options));
-
+    $settings->add(new enrol_warwickauto_hidden('enrol_warwickauto/enrolon', get_string('enrolon', 'enrol_warwickauto'), get_string('enrolon_desc', 'enrol_warwickauto'), ENROL_WARWICKAUTO_COURSE_VIEWED));
 
     // Clear the observer cache to ensure observers for any newly-installed plugins are added
     if (!empty($PAGE->url) && strstr($PAGE->url, 'section=enrolsettingsauto')) {
         $cache = \cache::make('core', 'observers');
         $cache->delete('all');
     }
-
-    $mods = \enrol_warwickauto\helper::get_mods_with_viewed_event();
-    $viewmods = array();
-    foreach ($mods as $modname) {
-        $viewmods[$modname] = get_string('pluginname', "mod_{$modname}");
-    }
-    $settings->add(new admin_setting_configmulticheckbox('enrol_warwickauto/modviewmods',
-        new lang_string('modviewmods', 'enrol_warwickauto'),
-        new lang_string('modviewmods_desc', 'enrol_warwickauto'), array(), $viewmods));
 
     if (!during_initial_install()) {
         $options = get_default_enrol_roles(context_system::instance());

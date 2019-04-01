@@ -50,19 +50,8 @@ class enrol_warwickauto_edit_form extends moodleform {
         $mform->addElement('select', 'status', get_string('status', 'enrol_warwickauto'), $options);
         $mform->addHelpButton('status', 'status', 'enrol_warwickauto');
 
-        $options = array(ENROL_WARWICKAUTO_COURSE_VIEWED => get_string('courseview', 'enrol_warwickauto'),
-                         ENROL_WARWICKAUTO_LOGIN => get_string('userlogin', 'enrol_warwickauto'),
-                         ENROL_WARWICKAUTO_MOD_VIEWED    => get_string('modview', 'enrol_warwickauto'));
-        $mform->addElement('select', 'customint3', get_string('enrolon', 'enrol_warwickauto'), $options);
-        $mform->addHelpButton('customint3', 'enrolon', 'enrol_warwickauto');
-
-        $mods = \enrol_warwickauto\helper::get_mods_with_viewed_event();
-        $modgroup = array();
-        foreach ($mods as $modname) {
-            $modgroup[] = $mform->createElement('checkbox', $modname, '', get_string('pluginname', "mod_{$modname}"));
-        }
-        $mform->addGroup($modgroup, 'customtext2', get_string('modviewmods', 'enrol_warwickauto'), '<br>', true);
-        $mform->disabledIf('customtext2', 'customint3', 'neq', ENROL_WARWICKAUTO_MOD_VIEWED);
+        $mform->addElement('hidden', 'customint3', ENROL_WARWICKAUTO_COURSE_VIEWED);
+        $mform->setType('customint3', PARAM_INT);
 
         $roles = $this->extend_assignable_roles($context, $instance->roleid);
         $mform->addElement('select', 'roleid', get_string('role', 'enrol_warwickauto'), $roles);

@@ -85,6 +85,25 @@ if ($mform->is_cancelled()) {
             'customtext2'     => empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2)),
             'roleid'          => $data->roleid
         );
+
+        if(optional_param('designations_add_button', false, PARAM_BOOL)){
+
+            $designation = new \enrol_warwickauto\multiselect\designation('designations_remove', [
+                'plugin' => 'enrol_warwickauto'
+            ]);
+
+            $fields[ 'customtext3' ] = $designation->buildConfigValues( $data->designations_remove );
+        }
+
+        if(optional_param('departments_add_button', false, PARAM_BOOL)){
+
+            $department = new \enrol_warwickauto\multiselect\department('departments_remove', [
+                'plugin' => 'enrol_warwickauto'
+            ]);
+
+            $fields[ 'customtext4' ] = $department->buildConfigValues( $data->departments_remove );
+        }
+
         $plugin->add_instance($course, $fields);
     }
 
