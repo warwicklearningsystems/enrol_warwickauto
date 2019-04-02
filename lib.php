@@ -207,7 +207,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         if( !$designation->userAllowed() )
             return false;
 
-        $department = new \enrol_warwickauto\multiselect\designation('departments_add', [
+        $department = new \enrol_warwickauto\multiselect\department('departments_add', [
             'plugin' => 'enrol_warwickauto',
             'enrol_instance' => $instance
         ]);
