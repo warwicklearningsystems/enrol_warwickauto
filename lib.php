@@ -215,16 +215,6 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         if( !$department->userAllowed() )
             return false;
 
-        if ($data['guestpassword'] !== $instance->password) {
-            $plugin = enrol_get_plugin('warwickguest');
-            if ($plugin->get_config('showhint')) {
-                $hint = core_text::substr($instance->password, 0, 1);
-                $errors['guestpassword'] = get_string('passwordinvalidhint', 'enrol_warwickguest', $hint);
-            } else {
-                $errors['guestpassword'] = get_string('passwordinvalid', 'enrol_warwickguest');
-            }
-        }
-
         $this->enrol_user($instance, $USER->id, $instance->roleid);
         // Send welcome message.
         if ($instance->customint2) {
