@@ -434,46 +434,26 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         
         $instance->customtext1    = empty($data->customtext1) ? '' : $data->customtext1;
         $instance->customtext2    = empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2));
+        $instance->customtext3    = null;
+        $instance->customtext4    = null;
         
-        
-        if(optional_param('designations_add_button', false, PARAM_BOOL)){
-
-            $designation = new \enrol_warwickauto\multiselect\designation('designations_remove', [
-                'plugin' => 'enrol_warwickauto',
-                'enrol_instance' => $instance
-            ]);
-
-            $instance->customtext3 = $designation->valuesToAdd( $data->designations_remove );
-        }
-        
-        if(optional_param('designations_remove_button', false, PARAM_BOOL)){
-            
+        if( !empty( $data->designations_add ) ){
             $designation = new \enrol_warwickauto\multiselect\designation('designations_add', [
                 'plugin' => 'enrol_warwickauto',
                 'enrol_instance' => $instance
             ]);
 
-            $instance->customtext3 = $designation->valuesToRemove( $data->designations_add );
+            $instance->customtext3 = $designation->valuesToAdd( $data->designations_add );
         }
         
-        if(optional_param('departments_add_button', false, PARAM_BOOL)){
-
-            $department = new \enrol_warwickauto\multiselect\department('departments_remove', [
-                'plugin' => 'enrol_warwickauto',
-                'enrol_instance' => $instance
-            ]);
-
-            $instance->customtext4 = $department->valuesToAdd( $data->departments_remove );
-        }
-
-        if(optional_param('departments_remove_button', false, PARAM_BOOL)){
+        if( !empty( $data->departments_add ) ){
 
             $department = new \enrol_warwickauto\multiselect\department('departments_add', [
                 'plugin' => 'enrol_warwickauto',
                 'enrol_instance' => $instance
             ]);
 
-            $instance->customtext4 = $department->valuesToRemove( $data->departments_add );
+            $instance->customtext4 = $department->valuesToAdd( $data->departments_add );
         }
 
         return parent::update_instance($instance, $data);

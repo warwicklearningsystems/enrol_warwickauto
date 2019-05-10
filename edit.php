@@ -37,6 +37,7 @@ require_capability('enrol/warwickauto:config', $context);
 
 $PAGE->set_url('/enrol/warwickauto/edit.php', array('courseid' => $course->id, 'id' => $instanceid));
 $PAGE->set_pagelayout('admin');
+$PAGE->requires->jquery();
 
 $return = new moodle_url('/enrol/instances.php', array('id' => $course->id));
 if (!enrol_is_enabled('warwickauto')) {
@@ -83,25 +84,27 @@ if ($mform->is_cancelled()) {
             'customint3'      => $data->customint3,
             'customtext1'     => empty($data->customtext1) ? '' : $data->customtext1,
             'customtext2'     => empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2)),
+            'customtext3'     => null,
+            'customtext4'     => null,
             'roleid'          => $data->roleid
         );
 
-        if(optional_param('designations_add_button', false, PARAM_BOOL)){
-
-            $designation = new \enrol_warwickauto\multiselect\designation('designations_remove', [
-                'plugin' => 'enrol_warwickauto'
+        if( !empty( $data->designations_add ) ){
+            $designation = new \enrol_warwickauto\multiselect\designation('designations_add', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
             ]);
 
-            $fields[ 'customtext3' ] = $designation->buildConfigValues( $data->designations_remove );
+            $fields[ 'customtext3' ] = $designation->valuesToAdd( $data->designations_add );
         }
 
-        if(optional_param('departments_add_button', false, PARAM_BOOL)){
-
-            $department = new \enrol_warwickauto\multiselect\department('departments_remove', [
-                'plugin' => 'enrol_warwickauto'
+        if( !empty( $data->departments_add ) ){
+            $department = new \enrol_warwickauto\multiselect\department('departments_add', [
+                'plugin' => 'enrol_warwickauto',
+                'enrol_instance' => $instance
             ]);
 
-            $fields[ 'customtext4' ] = $department->buildConfigValues( $data->departments_remove );
+            $fields[ 'customtext4' ] = $department->valuesToAdd( $data->departments_add );
         }
 
         $plugin->add_instance($course, $fields);
