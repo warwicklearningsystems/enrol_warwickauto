@@ -33,6 +33,7 @@ class enrol_warwickauto_edit_form extends moodleform {
         global $DB;
 
         $mform = $this->_form;
+        $selectionMoveInfoString = get_string('selectionmoveinfo', 'local_enrolmultiselect');
 
         // Clear the observer cache to ensure observers for any newly-installed plugins are added
         $cache = \cache::make('core', 'observers');
@@ -63,6 +64,13 @@ class enrol_warwickauto_edit_form extends moodleform {
         $mform->addHelpButton('customtext1', 'customwelcomemessage', 'enrol_warwickauto');
         $mform->disabledIf('customtext1', 'customint2', 'notchecked');
 
+        $mform->addElement('html', <<<__HTML__
+<div class="alert alert-info">
+    $selectionMoveInfoString
+</div>
+__HTML__
+);
+
         $designation = new \enrol_warwickauto\multiselect\designation(
             'designations_add', 
             [
@@ -84,6 +92,13 @@ class enrol_warwickauto_edit_form extends moodleform {
 
         $designationremoveElement = new local_enrolmultiselect_formelementdesignationremove(null,null,null,null,$designation);
         $mform->addElement( $designationremoveElement );
+
+$mform->addElement('html', <<<__HTML__
+<div class="alert alert-info">
+    $selectionMoveInfoString
+</div>
+__HTML__
+);
 
         $department = new \enrol_warwickauto\multiselect\department(
             'departments_add',
