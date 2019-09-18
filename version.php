@@ -24,12 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2019022000;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2019091802;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2016120500;        // Requires this Moodle version
 $plugin->component = 'enrol_warwickauto';      // Full name of the plugin (used for diagnostics)
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->release = 'bleeding';
 $plugin->dependencies = array(
-    'local_enrolmultiselect' => 2019022000
+    'local_enrolmultiselect' => 2019091800
 );
 

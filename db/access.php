@@ -65,4 +65,12 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
         )
     ),
+
+    /* Non-site admin management of auto-enrolment config. */
+    'enrol/warwickauto:nonsiteadminconfig' => array(
+        'riskbitmask' => RISK_CONFIG,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array()
+    )
 );

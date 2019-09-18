@@ -30,8 +30,8 @@ $designationUrl = new moodle_url( "/local/enrolmultiselect/designation.php", [ '
 $departmentUrl = new moodle_url( "/local/enrolmultiselect/department.php", [ 'plugin_name' => $pluginName ] );
     
 $ADMIN->add('enrolments', new admin_category('enrol_warwickauto', 'Warwick Auto enrolment', true ));
-$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_departments", 'Departments', $departmentUrl, 'moodle/site:config'));
-$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_designations", 'Designations', $designationUrl, 'moodle/site:config'));
+$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_departments", 'Departments', $departmentUrl, ['moodle/site:config','enrol/warwickauto:nonsiteadminconfig']));
+$ADMIN->add('enrol_warwickauto', new admin_externalpage("{$pluginName}_designations", 'Designations', $designationUrl, ['moodle/site:config','enrol/warwickauto:nonsiteadminconfig']));
 
 if ($ADMIN->fulltree) {
 
