@@ -423,6 +423,23 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         $context = context_course::instance($instance->courseid);
         return has_capability('enrol/warwickauto:config', $context);
     }
+
+    /**
+     * Returns true if the current user can add a new instance of enrolment plugin in course.
+     * @param int $courseid
+     * @return boolean
+     */
+    public function can_add_instance($courseid) {
+        global $DB;
+
+        $context = context_course::instance($courseid, MUST_EXIST);
+
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/warwickauto:config', $context)) {
+            return false;
+        }
+
+        return true;
+    }
     
     /**
      * 
