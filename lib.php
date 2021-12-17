@@ -190,6 +190,38 @@ class enrol_warwickauto_plugin extends enrol_plugin {
     public function try_autoenrol(stdClass $instance) {
         global $USER, $DB;
 
+
+        $customtext3 = $instance->customtext3;
+        $customtext4 = $instance->customtext4;
+
+        $arr_designations = json_decode($customtext3);
+        $arr_departments = json_decode($customtext4);
+
+        $array_designation = array();
+        $array_department = array();
+
+        foreach ($arr_designations as $key_designations) {
+            $array_designation[] = strtoupper(trim($key_designations->phone2));
+        }
+
+        foreach ($arr_departments as $key_departments) {
+            $array_department[] = strtoupper(trim($key_departments->department));
+        }
+
+        $designation = strtoupper(trim($USER->phone2));
+        $department = strtoupper(trim($USER->department));
+
+        if (in_array($department, $array_department)) {
+            if (in_array($designation, $array_designation)) {
+                $allow = true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+
         if ($instance->customint3 != ENROL_WARWICKAUTO_COURSE_VIEWED) {
             return false;
         }
@@ -215,6 +247,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         if( !$department->userAllowed() )
             return false;
 
+
         $this->enrol_user($instance, $USER->id, $instance->roleid);
         // Send welcome message.
         if ($instance->customint2) {
@@ -222,6 +255,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         }
 
         return 0;
+
     }
 
 
@@ -440,20 +474,20 @@ class enrol_warwickauto_plugin extends enrol_plugin {
 
         return true;
     }
-    
+
     /**
-     * 
+     *
      * @param stdClass $instance
      * @param array $data
      * @return bool
      */
     public function update_instance($instance, $data) {
-        
+
         $instance->customtext1    = empty($data->customtext1) ? '' : $data->customtext1;
         $instance->customtext2    = empty($data->customtext2) ? '' : implode(',', array_keys($data->customtext2));
         $instance->customtext3    = null;
         $instance->customtext4    = null;
-        
+
         if( !empty( $data->designations_add ) ){
             $designation = new \enrol_warwickauto\multiselect\designation('designations_add', [
                 'plugin' => 'enrol_warwickauto',
@@ -462,7 +496,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
 
             $instance->customtext3 = $designation->valuesToAdd( $data->designations_add );
         }
-        
+
         if( !empty( $data->departments_add ) ){
 
             $department = new \enrol_warwickauto\multiselect\department('departments_add', [
