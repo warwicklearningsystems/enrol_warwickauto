@@ -190,6 +190,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
     public function try_autoenrol(stdClass $instance) {
         global $USER, $DB;
 
+
         $customtext3 = $instance->customtext3;
         $customtext4 = $instance->customtext4;
 
@@ -213,12 +214,14 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         $allow = false;
 
         if (in_array($designation, $array_designation)) {
+
             $allow = true;
             if (in_array($department, $array_department)) {
                 $allow = true;
             } else {
                 $allow = false;
             }
+
             if (empty($array_department)) {
                 $allow = true;
             }
@@ -227,6 +230,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         if ($allow == false) {
             return false;
         }
+
 
 
         if ($instance->customint3 != ENROL_WARWICKAUTO_COURSE_VIEWED) {
@@ -238,12 +242,13 @@ class enrol_warwickauto_plugin extends enrol_plugin {
             return false;
         }
 
+        /*
         $designation = new \enrol_warwickauto\multiselect\designation('designations_add', [
             'plugin' => 'enrol_warwickauto',
             'enrol_instance' => $instance
         ]);
 
-        if( !$designation->userAllowed() )
+        if (!$designation->userAllowed())
             return false;
 
         $department = new \enrol_warwickauto\multiselect\department('departments_add', [
@@ -253,7 +258,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
 
         if( !$department->userAllowed() )
             return false;
-
+        */
 
         $this->enrol_user($instance, $USER->id, $instance->roleid);
         // Send welcome message.
