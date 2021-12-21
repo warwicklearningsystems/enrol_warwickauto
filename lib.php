@@ -190,7 +190,6 @@ class enrol_warwickauto_plugin extends enrol_plugin {
     public function try_autoenrol(stdClass $instance) {
         global $USER, $DB;
 
-
         $customtext3 = $instance->customtext3;
         $customtext4 = $instance->customtext4;
 
@@ -211,13 +210,21 @@ class enrol_warwickauto_plugin extends enrol_plugin {
         $designation = strtoupper(trim($USER->phone2));
         $department = strtoupper(trim($USER->department));
 
-        if (in_array($department, $array_department)) {
-            if (in_array($designation, $array_designation)) {
+        $allow = false;
+
+        if (in_array($designation, $array_designation)) {
+            $allow = true;
+            if (in_array($department, $array_department)) {
                 $allow = true;
             } else {
-                return false;
+                $allow = false;
             }
-        } else {
+            if (empty($array_department)) {
+                $allow = true;
+            }
+        }
+
+        if ($allow == false) {
             return false;
         }
 
