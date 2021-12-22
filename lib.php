@@ -213,19 +213,37 @@ class enrol_warwickauto_plugin extends enrol_plugin {
 
         $allow = false;
 
-        if (in_array($designation, $array_designation)) {
+        if (in_array($department, $array_department)) {
+            $allow = true;
+            if (in_array($designation, $array_designation)) {
+                $allow = true;
+            } else {
+                $allow = false;
+            }
+            if (empty($array_designation)) {
+                $allow = true;
+            }
+            if (trim($designation)=="") {
+                $allow = true;
+            }
+        }
 
+        if (in_array($designation, $array_designation) & trim($designation)!="") {
             $allow = true;
             if (in_array($department, $array_department)) {
                 $allow = true;
             } else {
                 $allow = false;
             }
-
             if (empty($array_department)) {
                 $allow = true;
             }
+            if (trim($department)=="") {
+                $allow = true;
+            }
+
         }
+        
 
         if ($allow == false) {
             return false;
