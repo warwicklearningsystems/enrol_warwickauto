@@ -118,9 +118,10 @@ class enrol_warwickauto_plugin extends enrol_plugin {
             return null;
         }
 
-        if ($DB->record_exists('enrol', array('courseid' => $courseid, 'enrol' => 'warwickauto'))) {
+    /*    if ($DB->record_exists('enrol', array('courseid' => $courseid, 'enrol' => 'warwickauto'))) {
             return null;
         }
+	*/
 
         return new moodle_url('/enrol/warwickauto/edit.php', array('courseid' => $courseid));
     }
