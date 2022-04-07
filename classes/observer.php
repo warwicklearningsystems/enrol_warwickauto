@@ -86,8 +86,7 @@ class observer {
      * @param stdClass $event
      */
     public static function user_loggedin($event) {
-        global $DB;
-
+        global $DB;		
         $eventdata = $event->get_data();
 
         if (!enrol_is_enabled('warwickauto')) {
@@ -107,12 +106,15 @@ class observer {
             AND e.status = ?
             AND e.customint3 = ?
             AND ue.id IS NULL";
+
         if (!$courses = $DB->get_records_sql($sql, array($eventdata['userid'], ENROL_INSTANCE_ENABLED, ENROL_WARWICKAUTO_LOGIN))) {
             return;
         }
 
         $autoplugin = enrol_get_plugin('warwickauto');
+
         foreach ($courses as $course) {
+
             if (!$instance = $autoplugin->get_instance_for_course($course->courseid)) {
                 continue;
             }

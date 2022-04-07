@@ -87,7 +87,7 @@ class enrol_warwickauto_plugin extends enrol_plugin {
     public function get_action_icons(stdClass $instance) {
         global $OUTPUT;
 
-        if ($instance->enrol !== 'warwickauto') {
+if ($instance->enrol !== 'warwickauto') {
             throw new coding_exception('invalid enrol instance!');
         }
         $context = context_course::instance($instance->courseid);
@@ -118,10 +118,9 @@ class enrol_warwickauto_plugin extends enrol_plugin {
             return null;
         }
 
-    /*    if ($DB->record_exists('enrol', array('courseid' => $courseid, 'enrol' => 'warwickauto'))) {
+        if ($DB->record_exists('enrol', array('courseid' => $courseid, 'enrol' => 'warwickauto'))) {
             return null;
         }
-	*/
 
         return new moodle_url('/enrol/warwickauto/edit.php', array('courseid' => $courseid));
     }
@@ -191,7 +190,6 @@ class enrol_warwickauto_plugin extends enrol_plugin {
     public function try_autoenrol(stdClass $instance) {
         global $USER, $DB;
 
-
         $customtext3 = $instance->customtext3;
         $customtext4 = $instance->customtext4;
 
@@ -244,12 +242,14 @@ class enrol_warwickauto_plugin extends enrol_plugin {
             }
 
         }
-        
+        // MOO-2411
+        if (empty($array_department) && empty($array_designation)) {
+            $allow = true;
+        }
 
         if ($allow == false) {
             return false;
         }
-
 
 
         if ($instance->customint3 != ENROL_WARWICKAUTO_COURSE_VIEWED) {
