@@ -79,7 +79,7 @@ __HTML__
             ]
         );
 
-        $designationAddElement = new local_enrolmultiselect_formelementdesignationadd(null,null,null,null,$designation);
+        $designationAddElement = new local_enrolmultiselect_formelementdesignationadd($designation);
         $mform->addElement( $designationAddElement );
 
         $designation = new \enrol_warwickauto\multiselect\potential_designation(
@@ -90,7 +90,7 @@ __HTML__
             ]
         );
 
-        $designationremoveElement = new local_enrolmultiselect_formelementdesignationremove(null,null,null,null,$designation);
+        $designationremoveElement = new local_enrolmultiselect_formelementdesignationremove($designation,null,null,null,null);
         $mform->addElement( $designationremoveElement );
 
 $mform->addElement('html', <<<__HTML__
@@ -108,7 +108,7 @@ __HTML__
             ]
         );
 
-        $departmentAddElement = new local_enrolmultiselect_formelementdepartmentadd(null,null,null,null,$department);
+        $departmentAddElement = new local_enrolmultiselect_formelementdepartmentadd($department);
         $mform->addElement( $departmentAddElement );
 
         $department = new \enrol_warwickauto\multiselect\potential_department(
@@ -119,7 +119,7 @@ __HTML__
             ]
         );
 
-        $departmentRemoveElement = new local_enrolmultiselect_formelementdepartmentremove(null,null,null,null,$department);
+        $departmentRemoveElement = new local_enrolmultiselect_formelementdepartmentremove($department);
         $mform->addElement( $departmentRemoveElement );
 
         $mform->addElement('hidden', 'id');
@@ -129,6 +129,10 @@ __HTML__
 
         $this->add_action_buttons(true, ($instance->id ? null : get_string('addinstance', 'enrol')));
 
+        // Check if customtext2 is null and handle it
+        if (!isset($instance->customtext2) || is_null($instance->customtext2)) {
+            $instance->customtext2 = '';
+        }
         $instance->customtext2 = array_flip(explode(',', $instance->customtext2));
         $instance->customtext2 = array_map(
             function ($a) {
